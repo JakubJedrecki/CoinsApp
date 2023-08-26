@@ -2,6 +2,7 @@ package com.jakub.coinsapp.features.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -38,7 +39,6 @@ fun HomeScreen(
         Column(
             modifier = Modifier
                 .padding(paddingValues)
-                .padding(8.dp)
         ) {
             HomeContent(
                 uiState = uiState
@@ -53,7 +53,8 @@ fun HomeContent(
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        contentPadding = PaddingValues(8.dp)
     ) {
         items(uiState.coins) { item ->
             CoinCard(

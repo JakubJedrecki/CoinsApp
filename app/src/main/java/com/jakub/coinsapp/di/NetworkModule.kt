@@ -2,6 +2,7 @@ package com.jakub.coinsapp.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.jakub.data.services.CoinsService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,8 +34,12 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
-        .baseUrl("https://api.coinpaprika.com/v1/")
+        .baseUrl("https://api.coinpaprika.com/")
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
+
+    @Provides
+    fun provideCoinService(retrofit: Retrofit): CoinsService =
+        retrofit.create(CoinsService::class.java)
 }
