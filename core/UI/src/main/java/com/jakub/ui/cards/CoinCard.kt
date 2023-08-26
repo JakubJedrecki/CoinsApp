@@ -2,8 +2,10 @@ package com.jakub.ui.cards
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
@@ -19,13 +21,21 @@ import com.jakub.ui.R
 @Preview
 @Composable
 fun CoinCardPreview() {
-    CoinCard(number = "1")
+    CoinCard(
+        name = "Bitcoin",
+        symbol = "BTC",
+        rank = "1",
+        type = "coin"
+    )
 }
 
 @Composable
 fun CoinCard(
     modifier: Modifier = Modifier,
-    number: String,
+    name: String,
+    symbol: String,
+    rank: String,
+    type: String,
 ) {
     Card(modifier = modifier) {
         Column(
@@ -36,21 +46,24 @@ fun CoinCard(
         ) {
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = "Bitcoin",
+                text = name,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.headlineMedium
             )
             Row {
                 Text(text = stringResource(id = R.string.txt_rank))
-                Text(text = number)
+                Spacer(modifier = Modifier.width(4.dp))
+                Text(text = "#$rank")
             }
             Row {
                 Text(text = stringResource(id = R.string.txt_symbol))
-                Text(text = "BTC")
+                Spacer(modifier = Modifier.width(4.dp))
+                Text(text = symbol)
             }
             Row {
                 Text(text = stringResource(id = R.string.txt_type))
-                Text(text = "coin")
+                Spacer(modifier = Modifier.width(4.dp))
+                Text(text = type)
             }
         }
     }
