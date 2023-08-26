@@ -1,4 +1,4 @@
-package com.jakub.coinsapp.ui.theme
+package com.jakub.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
