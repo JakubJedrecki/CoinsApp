@@ -5,6 +5,15 @@ import com.jakub.domain.models.Coin
 
 val ApiCoinsListMock = listOf(
     ApiCoin(
+        id = "usdt-tether",
+        name = "Tether",
+        symbol = "USDT",
+        isActive = true,
+        isNew = false,
+        rank = 3,
+        type = "token"
+    ),
+    ApiCoin(
         id = "btc-bitcoin",
         name = "Bitcoin",
         symbol = "BTC",
@@ -21,15 +30,6 @@ val ApiCoinsListMock = listOf(
         isNew = false,
         rank = 2,
         type = "coin"
-    ),
-    ApiCoin(
-        id = "usdt-tether",
-        name = "Tether",
-        symbol = "USDT",
-        isActive = true,
-        isNew = false,
-        rank = 3,
-        type = "token"
     )
 )
 

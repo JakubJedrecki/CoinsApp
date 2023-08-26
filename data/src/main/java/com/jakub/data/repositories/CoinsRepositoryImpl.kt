@@ -9,8 +9,8 @@ import com.jakub.domain.shared.ResultResponse
 import javax.inject.Inject
 
 class CoinsRepositoryImpl @Inject constructor(
-    private val coinsService: CoinsService
-): CoinsRepository {
+    private val coinsService: CoinsService,
+) : CoinsRepository {
 
     override suspend fun getCoins(): ResultResponse<List<Coin>> {
         return try {
@@ -23,6 +23,7 @@ class CoinsRepositoryImpl @Inject constructor(
                             coin.mapToDomain()
                         }.let { coins.addAll(it) }
 
+                        coins.sortBy { it.name }
                         return ResultResponse.Success(coins)
 
                     } else {
