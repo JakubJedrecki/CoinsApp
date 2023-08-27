@@ -32,7 +32,7 @@ class CoinsRepositoryImplTest {
     }
 
     @Test
-    fun getCoins_whenResponseSuccess_returnsDomainCoinsList() = runTest {
+    fun getCoins_whenResponseSuccess_thenReturnDomainCoinsList() = runTest {
         coEvery { coinsService.getCoins() } returns Response.success(ApiCoinsListMock)
 
         val outcome = sut.getCoins()
@@ -42,7 +42,7 @@ class CoinsRepositoryImplTest {
     }
 
     @Test
-    fun getCoins_whenException_returnsError() = runTest {
+    fun getCoins_whenException_thenReturnError() = runTest {
         coEvery { coinsService.getCoins() } throws RuntimeException("ERROR_MSG")
 
         val outcome = sut.getCoins()
@@ -52,7 +52,7 @@ class CoinsRepositoryImplTest {
     }
 
     @Test
-    fun getCoins_whenBodyIsNull_returnsError() = runTest {
+    fun getCoins_whenBodyIsNull_thenReturnError() = runTest {
         coEvery { coinsService.getCoins() } returns Response.success(null)
 
         val outcome = sut.getCoins()

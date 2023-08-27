@@ -6,6 +6,9 @@ import com.jakub.domain.models.Coin
 import com.jakub.domain.repositories.CoinsRepository
 import com.jakub.domain.shared.ErrorEntity
 import com.jakub.domain.shared.ResultResponse
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class CoinsRepositoryImpl @Inject constructor(
@@ -23,7 +26,9 @@ class CoinsRepositoryImpl @Inject constructor(
                             coin.mapToDomain()
                         }.let { coins.addAll(it) }
 
-                        coins.sortBy { it.name }
+                        withContext(Dispatchers.IO) {
+                            coins.sortBy { it.name.trim() }
+                        }
                         return ResultResponse.Success(coins)
 
                     } else {
