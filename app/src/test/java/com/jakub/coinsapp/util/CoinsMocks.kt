@@ -11,7 +11,10 @@ val domainCoinsListMock = listOf(
         isActive = true,
         isNew = false,
         rank = 1,
-        type = "coin"
+        type = "token",
+        description = "",
+        hashAlgorithm = "",
+        platform = ""
     ),
     Coin(
         id = "eth-ethereum",
@@ -20,7 +23,10 @@ val domainCoinsListMock = listOf(
         isActive = true,
         isNew = false,
         rank = 2,
-        type = "coin"
+        type = "token",
+        description = "",
+        hashAlgorithm = "",
+        platform = ""
     ),
     Coin(
         id = "usdt-tether",
@@ -29,6 +35,9 @@ val domainCoinsListMock = listOf(
         isActive = true,
         isNew = false,
         rank = 3,
-        type = "token"
+        type = "token",
+        description = "",
+        hashAlgorithm = "",
+        platform = ""
     )
 )
