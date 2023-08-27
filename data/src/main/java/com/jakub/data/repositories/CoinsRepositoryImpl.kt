@@ -36,10 +36,33 @@ class CoinsRepositoryImpl @Inject constructor(
                         val error = this.errorBody()?.toString() ?: ""
                         ResultResponse.Error(ErrorEntity.Unknown(error))
                     }
-                } ?: ResultResponse.Error(ErrorEntity.Generic())
+                } ?: ResultResponse.Error(ErrorEntity.Unknown())
             }
+        } catch (exception: UnknownHostException) {
+            exception.printStackTrace()
+            ResultResponse.Error(ErrorEntity.NetworkFailure(exception.message ?: ""))
         }
-        catch (exception: UnknownHostException) {
+        catch (exception: Exception) {
+            exception.printStackTrace()
+            ResultResponse.Error(ErrorEntity.Unknown(exception.message ?: ""))
+        }
+    }
+
+    override suspend fun getCoinDetails(id: String): ResultResponse<Coin> {
+        return try {
+            coinsService.getCoinDetails(id).run {
+                this.body()?.let { coin ->
+                    if (isSuccessful) {
+                        val domainCoin = coin.mapToDomain()
+                        return ResultResponse.Success(domainCoin)
+                    } else {
+                        val error = this.errorBody()?.toString() ?: ""
+                        ResultResponse.Error(ErrorEntity.Unknown(error))
+                    }
+                } ?: ResultResponse.Error(ErrorEntity.Unknown())
+            }
+
+        } catch (exception: UnknownHostException) {
             exception.printStackTrace()
             ResultResponse.Error(ErrorEntity.NetworkFailure(exception.message ?: ""))
         }

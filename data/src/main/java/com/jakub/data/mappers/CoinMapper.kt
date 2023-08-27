@@ -10,5 +10,8 @@ fun ApiCoin.mapToDomain(): Coin = Coin(
     rank = rank,
     isNew = isNew,
     isActive = isActive,
-    type = type
+    type = type,
+    hashAlgorithm = hashAlgorithm ?: "-",
+    description = description ?: "-",
+    platform = platform ?: "-"
 )

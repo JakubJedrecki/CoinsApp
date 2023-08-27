@@ -7,5 +7,8 @@ data class Coin(
     val rank: Int,
     val isNew: Boolean,
     val isActive: Boolean,
-    val type: String
+    val type: String,
+    val hashAlgorithm: String,
+    val description: String,
+    val platform: String
 )

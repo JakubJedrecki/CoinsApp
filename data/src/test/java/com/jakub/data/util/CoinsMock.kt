@@ -11,7 +11,10 @@ val ApiCoinsListMock = listOf(
         isActive = true,
         isNew = false,
         rank = 3,
-        type = "token"
+        type = "token",
+        description = "",
+        hashAlgorithm = "",
+        platform = ""
     ),
     ApiCoin(
         id = "btc-bitcoin",
@@ -20,7 +23,10 @@ val ApiCoinsListMock = listOf(
         isActive = true,
         isNew = false,
         rank = 1,
-        type = "coin"
+        type = "coin",
+        description = "",
+        hashAlgorithm = "",
+        platform = ""
     ),
     ApiCoin(
         id = "eth-ethereum",
@@ -29,7 +35,10 @@ val ApiCoinsListMock = listOf(
         isActive = true,
         isNew = false,
         rank = 2,
-        type = "coin"
+        type = "coin",
+        description = "",
+        hashAlgorithm = "",
+        platform = ""
     )
 )
 
@@ -41,7 +50,10 @@ val domainCoinsListMock = listOf(
         isActive = true,
         isNew = false,
         rank = 1,
-        type = "coin"
+        type = "coin",
+        description = "",
+        hashAlgorithm = "",
+        platform = ""
     ),
     Coin(
         id = "eth-ethereum",
@@ -50,7 +62,10 @@ val domainCoinsListMock = listOf(
         isActive = true,
         isNew = false,
         rank = 2,
-        type = "coin"
+        type = "coin",
+        description = "",
+        hashAlgorithm = "",
+        platform = ""
     ),
     Coin(
         id = "usdt-tether",
@@ -59,6 +74,35 @@ val domainCoinsListMock = listOf(
         isActive = true,
         isNew = false,
         rank = 3,
-        type = "token"
+        type = "token",
+        description = "",
+        hashAlgorithm = "",
+        platform = ""
     )
+)
+
+val apiCoinWithDetails = ApiCoin(
+    id = "btc-bitcoin",
+    name = "Bitcoin",
+    symbol = "BTC",
+    isActive = true,
+    isNew = false,
+    rank = 1,
+    type = "coin",
+    description = "Bitcoin is a cryptocurrency and worldwide payment system.",
+    hashAlgorithm = "SHA256",
+    platform = "-"
+)
+
+val domainCoinWithDetails = Coin(
+    id = "btc-bitcoin",
+    name = "Bitcoin",
+    symbol = "BTC",
+    isActive = true,
+    isNew = false,
+    rank = 1,
+    type = "coin",
+    description = "Bitcoin is a cryptocurrency and worldwide payment system.",
+    hashAlgorithm = "SHA256",
+    platform = "-"
 )

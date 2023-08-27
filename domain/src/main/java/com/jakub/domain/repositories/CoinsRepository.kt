@@ -5,4 +5,5 @@ import com.jakub.domain.shared.ResultResponse
 
 interface CoinsRepository {
     suspend fun getCoins(): ResultResponse<List<Coin>>
+    suspend fun getCoinDetails(id: String): ResultResponse<Coin>
 }

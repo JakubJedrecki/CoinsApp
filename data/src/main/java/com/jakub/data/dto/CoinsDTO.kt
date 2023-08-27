@@ -10,4 +10,8 @@ data class ApiCoin(
     @SerializedName("is_new") var isNew: Boolean,
     @SerializedName("is_active") var isActive: Boolean,
     @SerializedName("type") var type: String,
+    @SerializedName("description") var description: String,
+    @SerializedName("hash_algorithm") var hashAlgorithm: String,
+    @SerializedName("platform") var platform: String
 )
+

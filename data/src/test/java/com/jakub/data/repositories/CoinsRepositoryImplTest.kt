@@ -3,6 +3,8 @@ package com.jakub.data.repositories
 
 import com.jakub.data.services.CoinsService
 import com.jakub.data.util.ApiCoinsListMock
+import com.jakub.data.util.apiCoinWithDetails
+import com.jakub.data.util.domainCoinWithDetails
 import com.jakub.data.util.domainCoinsListMock
 import com.jakub.domain.shared.ErrorEntity
 import com.jakub.domain.shared.ResultResponse
@@ -16,7 +18,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import retrofit2.Response
-import java.lang.RuntimeException
+import java.net.UnknownHostException
 
 class CoinsRepositoryImplTest {
 
@@ -48,7 +50,10 @@ class CoinsRepositoryImplTest {
         val outcome = sut.getCoins()
 
         assertThat(outcome, instanceOf(ResultResponse.Error::class.java))
-        assertThat((outcome as ResultResponse.Error).error, instanceOf(ErrorEntity.Unknown::class.java))
+        assertThat(
+            (outcome as ResultResponse.Error).error,
+            instanceOf(ErrorEntity.Unknown::class.java)
+        )
     }
 
     @Test
@@ -58,6 +63,32 @@ class CoinsRepositoryImplTest {
         val outcome = sut.getCoins()
 
         assertThat(outcome, instanceOf(ResultResponse.Error::class.java))
-        assertThat((outcome as ResultResponse.Error).error, instanceOf(ErrorEntity.Unknown::class.java))
+        assertThat(
+            (outcome as ResultResponse.Error).error,
+            instanceOf(ErrorEntity.Unknown::class.java)
+        )
+    }
+
+    @Test
+    fun getCoinDetails_whenResponseSuccess_thenReturnCoinData() = runTest {
+        coEvery { coinsService.getCoinDetails("") } returns Response.success(apiCoinWithDetails)
+
+        val outcome = sut.getCoinDetails("")
+
+        assertThat(outcome, instanceOf(ResultResponse.Success::class.java))
+        assertEquals((outcome as ResultResponse.Success).data, domainCoinWithDetails)
+    }
+
+    @Test
+    fun getCoinDetails_whenResponseSuccess_thenReturnCoinData2() = runTest {
+        coEvery { coinsService.getCoinDetails("") } throws UnknownHostException("error")
+
+        val outcome = sut.getCoinDetails("")
+
+        assertThat(outcome, instanceOf(ResultResponse.Error::class.java))
+        assertThat(
+            (outcome as ResultResponse.Error).error,
+            instanceOf(ErrorEntity.NetworkFailure::class.java)
+        )
     }
 }
