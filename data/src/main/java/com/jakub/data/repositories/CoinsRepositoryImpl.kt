@@ -9,6 +9,7 @@ import com.jakub.domain.shared.ResultResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 class CoinsRepositoryImpl @Inject constructor(
@@ -35,9 +36,15 @@ class CoinsRepositoryImpl @Inject constructor(
                         val error = this.errorBody()?.toString() ?: ""
                         ResultResponse.Error(ErrorEntity.Unknown(error))
                     }
-                } ?: ResultResponse.Error(ErrorEntity.Unknown())
+                } ?: ResultResponse.Error(ErrorEntity.Generic())
             }
-        } catch (exception: Exception) {
+        }
+        catch (exception: UnknownHostException) {
+            exception.printStackTrace()
+            ResultResponse.Error(ErrorEntity.NetworkFailure(exception.message ?: ""))
+        }
+        catch (exception: Exception) {
+            exception.printStackTrace()
             ResultResponse.Error(ErrorEntity.Unknown(exception.message ?: ""))
         }
     }
