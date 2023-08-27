@@ -37,6 +37,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.jakub.coinsapp.R
 import com.jakub.ui.cards.CoinCard
+import com.jakub.ui.errors.ErrorView
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -114,6 +115,10 @@ fun HomeContent(
                 Spacer(modifier = Modifier.height(4.dp))
                 Divider()
             }
+        }
+
+        if (uiState.hasError) {
+            ErrorView(uiState.errorMsg)
         }
 
         PullRefreshIndicator(

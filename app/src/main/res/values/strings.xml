@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">CoinsApp</string>
+    <string name="txt_filter">Filter:</string>
+    <string name="txt_coins">Coins</string>
+    <string name="txt_tokens">Tokens</string>
+    <string name="txt_clear">clear</string>
 </resources>
