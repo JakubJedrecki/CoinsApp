@@ -65,6 +65,34 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun getCoinDetails(id: String) {
+        _uiState.update { state -> state.copy(getDetailsError = false) }
+        viewModelScope.launch {
+            when(val response = coinsRepository.getCoinDetails(id)) {
+                is ResultResponse.Success -> {
+                    _uiState.update { state ->
+                        state.copy(
+                            selectedCoin = response.data
+                        )
+                    }
+                }
+                is ResultResponse.Error -> {
+                    _uiState.update { state ->
+                        state.copy(
+                            getDetailsError = true
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    fun dismissCoinDetailsDialog() {
+        _uiState.update { it.copy(
+            selectedCoin = null
+        ) }
+    }
+
     fun filterCoins(filterType: FilterType) {
         viewModelScope.launch(Dispatchers.IO) {
             _uiState.update { state ->

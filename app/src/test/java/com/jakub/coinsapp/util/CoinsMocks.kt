@@ -41,3 +41,16 @@ val domainCoinsListMock = listOf(
         platform = ""
     )
 )
+
+val domainCoinWithDetails = Coin(
+    id = "btc-bitcoin",
+    name = "Bitcoin",
+    symbol = "BTC",
+    isActive = true,
+    isNew = false,
+    rank = 1,
+    type = "coin",
+    description = "Bitcoin is a cryptocurrency and worldwide payment system.",
+    hashAlgorithm = "SHA256",
+    platform = "-"
+)

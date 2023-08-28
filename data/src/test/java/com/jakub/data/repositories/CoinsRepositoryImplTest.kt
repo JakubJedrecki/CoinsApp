@@ -44,7 +44,7 @@ class CoinsRepositoryImplTest {
     }
 
     @Test
-    fun getCoins_whenException_thenReturnError() = runTest {
+    fun getCoins_whenRuntimeException_thenReturnUnknownError() = runTest {
         coEvery { coinsService.getCoins() } throws RuntimeException("ERROR_MSG")
 
         val outcome = sut.getCoins()
@@ -57,7 +57,7 @@ class CoinsRepositoryImplTest {
     }
 
     @Test
-    fun getCoins_whenBodyIsNull_thenReturnError() = runTest {
+    fun getCoins_whenBodyIsNull_thenReturnUnknownError() = runTest {
         coEvery { coinsService.getCoins() } returns Response.success(null)
 
         val outcome = sut.getCoins()
@@ -80,7 +80,7 @@ class CoinsRepositoryImplTest {
     }
 
     @Test
-    fun getCoinDetails_whenResponseSuccess_thenReturnCoinData2() = runTest {
+    fun getCoinDetails_whenUnknownHostException_thenReturnNetworkError() = runTest {
         coEvery { coinsService.getCoinDetails("") } throws UnknownHostException("error")
 
         val outcome = sut.getCoinDetails("")

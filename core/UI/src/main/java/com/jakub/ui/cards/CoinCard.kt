@@ -1,5 +1,6 @@
 package com.jakub.ui.cards
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,7 +26,8 @@ fun CoinCardPreview() {
         name = "Bitcoin",
         symbol = "BTC",
         rank = "1",
-        type = "coin"
+        type = "coin",
+        onCardClick = {}
     )
 }
 
@@ -36,8 +38,9 @@ fun CoinCard(
     symbol: String,
     rank: String,
     type: String,
+    onCardClick: () -> Unit
 ) {
-    Card(modifier = modifier) {
+    Card(modifier = modifier.clickable { onCardClick() }) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()

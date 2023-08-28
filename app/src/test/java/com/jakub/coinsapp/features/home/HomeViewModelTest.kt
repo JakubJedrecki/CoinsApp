@@ -1,6 +1,7 @@
 package com.jakub.coinsapp.features.home
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.jakub.coinsapp.util.domainCoinWithDetails
 import com.jakub.coinsapp.util.domainCoinsListMock
 import com.jakub.domain.repositories.CoinsRepository
 import com.jakub.domain.shared.ErrorEntity
@@ -125,7 +126,7 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun getCoins_whenResponseSuccess_thenUpdateUiStateWithCoinsList2() = runTest {
+    fun filterCoins_whenFilterByCoin_thenUpdateUiStateCoinsList() = runTest {
         coEvery { repository.getCoins() } returns ResultResponse.Success(domainCoinsListMock)
         val sut = HomeViewModel(repository)
         val testResults = mutableListOf<HomeUiState>()
@@ -141,6 +142,60 @@ class HomeViewModelTest {
         }
         sut.filterCoins(FilterType.COIN)
         advanceUntilIdle()
+
+        job.cancel()
+    }
+
+    @Test
+    fun getCoinDetails_whenResponseSuccess_thenUpdateUiStateSelectedCoin() = runTest {
+        coEvery { repository.getCoinDetails("") } returns ResultResponse.Success(domainCoinWithDetails)
+        val sut = HomeViewModel(repository)
+        val testResults = mutableListOf<HomeUiState>()
+
+        val job = launch(UnconfinedTestDispatcher(testScheduler)) {
+            sut.uiState.toList(testResults)
+        }
+        sut.getCoinDetails("")
+
+        assertNotNull(testResults.last().selectedCoin)
+        assertEquals("Bitcoin", testResults.last().selectedCoin?.name)
+        assertEquals("SHA256", testResults.last().selectedCoin?.hashAlgorithm)
+
+        job.cancel()
+    }
+
+    @Test
+    fun getCoinDetails_whenError_thenUpdateUiStateGetDetailsError() = runTest {
+        coEvery { repository.getCoinDetails("") } returns ResultResponse.Error(ErrorEntity.Generic())
+        val sut = HomeViewModel(repository)
+        val testResults = mutableListOf<HomeUiState>()
+
+        val job = launch(UnconfinedTestDispatcher(testScheduler)) {
+            sut.uiState.toList(testResults)
+        }
+        sut.getCoinDetails("")
+
+        assertNull(testResults.last().selectedCoin)
+        assertTrue(testResults.last().getDetailsError)
+
+        job.cancel()
+    }
+
+    @Test
+    fun dismissCoinDetailsDialog_whenDismiss_thenUpdateUiStateSelectedCoin() = runTest {
+        coEvery { repository.getCoinDetails("") } returns ResultResponse.Success(domainCoinWithDetails)
+        val sut = HomeViewModel(repository)
+        val testResults = mutableListOf<HomeUiState>()
+
+        val job = launch(UnconfinedTestDispatcher(testScheduler)) {
+            sut.uiState.toList(testResults)
+        }
+        sut.getCoinDetails("")
+        sut.dismissCoinDetailsDialog()
+
+        assertNotNull(testResults[1].selectedCoin)
+        assertNull(testResults.last().selectedCoin)
+        assertFalse(testResults.last().getDetailsError)
 
         job.cancel()
     }

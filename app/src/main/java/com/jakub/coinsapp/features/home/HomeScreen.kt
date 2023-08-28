@@ -1,5 +1,6 @@
 package com.jakub.coinsapp.features.home
 
+import android.widget.Toast
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
@@ -27,10 +28,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -79,7 +82,9 @@ fun HomeScreen(
 
             HomeContent(
                 uiState = uiState,
-                onRefresh = { viewModel.getCoins() }
+                onRefresh = viewModel::getCoins,
+                onCoinClick = viewModel::getCoinDetails,
+                onDialogDismiss = viewModel::dismissCoinDetailsDialog
             )
         }
     }
@@ -90,13 +95,20 @@ fun HomeScreen(
 fun HomeContent(
     uiState: HomeUiState,
     onRefresh: () -> Unit,
+    onCoinClick: (id: String) -> Unit,
+    onDialogDismiss: () -> Unit,
 ) {
+    val context = LocalContext.current
     val pullRefreshState = rememberPullRefreshState(
         refreshing = uiState.isLoading,
         onRefresh = { onRefresh() }
     )
 
-    Box(modifier = Modifier.pullRefresh(state = pullRefreshState)) {
+    Box(
+        modifier = Modifier
+            .pullRefresh(state = pullRefreshState)
+            .fillMaxSize()
+    ) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -110,7 +122,8 @@ fun HomeContent(
                     name = item.name,
                     symbol = item.symbol,
                     rank = item.rank.toString(),
-                    type = item.type
+                    type = item.type,
+                    onCardClick = { onCoinClick(item.id) }
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Divider()
@@ -126,10 +139,21 @@ fun HomeContent(
             refreshing = uiState.isLoading,
             state = pullRefreshState,
         )
+
+        if (uiState.selectedCoin != null) {
+            CoinDetailsDialog(
+                coin = uiState.selectedCoin,
+                onDismiss = onDialogDismiss
+            )
+        }
+
+        LaunchedEffect(key1 = uiState.getDetailsError) {
+            if (uiState.getDetailsError) {
+                Toast.makeText(context, "Couldn't retrieve coin details", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 }
-
-
 
 
 
