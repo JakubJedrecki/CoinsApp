@@ -41,6 +41,7 @@ import androidx.navigation.NavController
 import com.jakub.coinsapp.R
 import com.jakub.ui.cards.CoinCard
 import com.jakub.ui.errors.ErrorView
+import com.jakub.ui.loading.SmallLoadingIndicator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -130,7 +131,7 @@ fun HomeContent(
             }
         }
 
-        if (uiState.hasError) {
+        if (uiState.getCoinsError) {
             ErrorView(uiState.errorMsg)
         }
 
@@ -149,12 +150,16 @@ fun HomeContent(
 
         LaunchedEffect(key1 = uiState.getDetailsError) {
             if (uiState.getDetailsError) {
-                Toast.makeText(context, "Couldn't retrieve coin details", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Couldn't retrieve coin details", Toast.LENGTH_LONG)
+                    .show()
             }
+        }
+
+        if (uiState.isLoadingDetails) {
+            SmallLoadingIndicator()
         }
     }
 }
-
 
 
 

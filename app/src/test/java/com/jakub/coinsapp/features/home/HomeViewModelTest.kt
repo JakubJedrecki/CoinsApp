@@ -11,8 +11,6 @@ import io.mockk.coEvery
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.toList
@@ -20,7 +18,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
@@ -82,7 +79,7 @@ class HomeViewModelTest {
         assertEquals(3, testResults.size)
         assertFalse(testResults.first().isLoading)
         assertTrue(testResults[1].isLoading)
-        assertTrue(testResults.last().hasError)
+        assertTrue(testResults.last().getCoinsError)
         assertFalse(testResults.last().errorMsg.isBlank())
         job.cancel()
     }
@@ -101,7 +98,7 @@ class HomeViewModelTest {
         assertEquals(3, testResults.size)
         assertFalse(testResults.first().isLoading)
         assertTrue(testResults[1].isLoading)
-        assertTrue(testResults.last().hasError)
+        assertTrue(testResults.last().getCoinsError)
         assertFalse(testResults.last().errorMsg.isBlank())
         job.cancel()
     }
@@ -120,7 +117,7 @@ class HomeViewModelTest {
         assertEquals(3, testResults.size)
         assertFalse(testResults.first().isLoading)
         assertTrue(testResults[1].isLoading)
-        assertTrue(testResults.last().hasError)
+        assertTrue(testResults.last().getCoinsError)
         assertFalse(testResults.last().errorMsg.isBlank())
         job.cancel()
     }
@@ -193,7 +190,7 @@ class HomeViewModelTest {
         sut.getCoinDetails("")
         sut.dismissCoinDetailsDialog()
 
-        assertNotNull(testResults[1].selectedCoin)
+        assertNotNull(testResults[2].selectedCoin)
         assertNull(testResults.last().selectedCoin)
         assertFalse(testResults.last().getDetailsError)
 
