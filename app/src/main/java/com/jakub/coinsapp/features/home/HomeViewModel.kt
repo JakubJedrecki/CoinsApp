@@ -39,7 +39,7 @@ class HomeViewModel @Inject constructor(
                     _uiState.update { state ->
                         state.copy(
                             coins = coinsList,
-                            hasError = false,
+                            getCoinsError = false,
                             isLoading = false
                         )
                     }
@@ -54,7 +54,7 @@ class HomeViewModel @Inject constructor(
                             _uiState.update { state ->
                                 state.copy(
                                     isLoading = false,
-                                    hasError = true,
+                                    getCoinsError = true,
                                     errorMsg = response.error.message
                                 )
                             }
@@ -66,20 +66,22 @@ class HomeViewModel @Inject constructor(
     }
 
     fun getCoinDetails(id: String) {
-        _uiState.update { state -> state.copy(getDetailsError = false) }
+        _uiState.update { state -> state.copy(getDetailsError = false, isLoadingDetails = true) }
         viewModelScope.launch {
             when(val response = coinsRepository.getCoinDetails(id)) {
                 is ResultResponse.Success -> {
                     _uiState.update { state ->
                         state.copy(
-                            selectedCoin = response.data
+                            selectedCoin = response.data,
+                            isLoadingDetails = false
                         )
                     }
                 }
                 is ResultResponse.Error -> {
                     _uiState.update { state ->
                         state.copy(
-                            getDetailsError = true
+                            getDetailsError = true,
+                            isLoadingDetails = false
                         )
                     }
                 }
@@ -89,7 +91,8 @@ class HomeViewModel @Inject constructor(
 
     fun dismissCoinDetailsDialog() {
         _uiState.update { it.copy(
-            selectedCoin = null
+            selectedCoin = null,
+            isLoadingDetails = false
         ) }
     }
 
