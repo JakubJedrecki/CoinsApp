@@ -40,7 +40,7 @@ class CoinsRepositoryImpl @Inject constructor(
             }
         } catch (exception: UnknownHostException) {
             exception.printStackTrace()
-            ResultResponse.Error(ErrorEntity.NetworkFailure(exception.message ?: ""))
+            ResultResponse.Error(ErrorEntity.NetworkFailure())
         }
         catch (exception: Exception) {
             exception.printStackTrace()
@@ -61,10 +61,9 @@ class CoinsRepositoryImpl @Inject constructor(
                     }
                 } ?: ResultResponse.Error(ErrorEntity.Unknown())
             }
-
         } catch (exception: UnknownHostException) {
             exception.printStackTrace()
-            ResultResponse.Error(ErrorEntity.NetworkFailure(exception.message ?: ""))
+            ResultResponse.Error(ErrorEntity.NetworkFailure())
         }
         catch (exception: Exception) {
             exception.printStackTrace()

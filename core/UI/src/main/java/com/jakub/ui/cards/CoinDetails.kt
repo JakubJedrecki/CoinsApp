@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jakub.ui.R
@@ -83,7 +84,12 @@ fun CoinDetailsCard(
                 }
             }
 
-            Text(text = description, modifier = Modifier.padding(vertical = 12.dp))
+            Text(
+                text = description,
+                modifier = Modifier.padding(vertical = 12.dp),
+                maxLines = 8,
+                overflow = TextOverflow.Ellipsis
+            )
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
