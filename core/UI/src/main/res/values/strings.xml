@@ -5,4 +5,8 @@
     <string name="txt_type">type:</string>
     <string name="txt_hash_algorithm">"Hash Algorithm: "</string>
     <string name="txt_platform">"Platform: "</string>
+    <string name="txt_filter">Filter:</string>
+    <string name="txt_coins">Coins</string>
+    <string name="txt_tokens">Tokens</string>
+    <string name="txt_clear">Clear</string>
 </resources>

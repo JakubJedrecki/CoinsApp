@@ -7,10 +7,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -19,11 +17,8 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -34,12 +29,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.jakub.coinsapp.R
+import com.jakub.coinsapp.features.coinDetails.CoinDetailsDialog
 import com.jakub.ui.cards.CoinCard
+import com.jakub.ui.components.FiltersRow
 import com.jakub.ui.errors.ErrorView
 import com.jakub.ui.loading.SmallLoadingIndicator
 
@@ -60,32 +55,12 @@ fun HomeScreen(
             modifier = Modifier
                 .padding(paddingValues)
         ) {
-            Row(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(text = stringResource(R.string.txt_filter))
-                Button(onClick = { viewModel.filterCoins(FilterType.COIN) }) {
-                    Text(text = stringResource(R.string.txt_coins))
-                }
-                Button(onClick = { viewModel.filterCoins(FilterType.TOKEN) }) {
-                    Text(text = stringResource(R.string.txt_tokens))
-                }
-                Button(
-                    onClick = { viewModel.filterCoins(FilterType.NONE) },
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
-                ) {
-                    Text(text = stringResource(R.string.txt_clear))
-                }
-            }
-
             HomeContent(
                 uiState = uiState,
                 onRefresh = viewModel::getCoins,
                 onCoinClick = viewModel::getCoinDetails,
-                onDialogDismiss = viewModel::dismissCoinDetailsDialog
+                onDialogDismiss = viewModel::dismissCoinDetailsDialog,
+                filterCoins = viewModel::filterCoins
             )
         }
     }
@@ -98,11 +73,18 @@ fun HomeContent(
     onRefresh: () -> Unit,
     onCoinClick: (id: String) -> Unit,
     onDialogDismiss: () -> Unit,
+    filterCoins: (filter: FilterType) -> Unit,
 ) {
     val context = LocalContext.current
     val pullRefreshState = rememberPullRefreshState(
         refreshing = uiState.isLoading,
         onRefresh = { onRefresh() }
+    )
+
+    FiltersRow(
+        coinsClick = { filterCoins(FilterType.COIN) },
+        tokensClick = { filterCoins(FilterType.TOKEN) },
+        clearClick = { filterCoins(FilterType.NONE) }
     )
 
     Box(

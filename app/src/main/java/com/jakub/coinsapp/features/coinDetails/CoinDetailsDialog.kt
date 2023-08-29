@@ -1,4 +1,4 @@
-package com.jakub.coinsapp.features.home
+package com.jakub.coinsapp.features.coinDetails
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.window.Dialog
